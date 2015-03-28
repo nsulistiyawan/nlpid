@@ -5,8 +5,6 @@
  */
 package com.nlpid;
 
-import com.nlpid.regexentity.AgeEntity;
-import com.nlpid.regexentity.DateEntity;
 import com.nlpid.tokenizer.TokenizerFactory;
 import java.util.List;
 
