@@ -36,13 +36,13 @@ public class StringHelper {
         '[', ']', '+', '=', '*', '&', '^', '%', '$', '#',
         '@', '~', '`', '{', '}', '\\', '|', '>', '<'
     };
-    
-    private static final char[] afterWordChars = {
-        '.',',','?'
+
+    private static final char[] commonPunctuationAfterWords = {
+        '.', ',', '?'
     };
-    
+
     private static final char[] commonAbbreviationsChars = {
-        ',','?','(',')'
+        ',', '?', '(', ')'
     };
 
     public static boolean isAlphaNumeric(char c) {
@@ -61,7 +61,7 @@ public class StringHelper {
 
     public static boolean isPunctuation(char c) {
         for (char punctuationChar : punctuationChars) {
-            if(c == punctuationChar){
+            if (c == punctuationChar) {
                 return true;
             }
         }
@@ -85,19 +85,19 @@ public class StringHelper {
         }
         return false;
     }
-    
-    public static boolean isAfterWordsChar(char c){
-        for (char afterWordChar : afterWordChars) {
-            if(c == afterWordChar){
+
+    public static boolean isCommonPunctuationAfterWord(char c) {
+        for (char commonPunctuationAfterWord : commonPunctuationAfterWords) {
+            if (c == commonPunctuationAfterWord) {
                 return true;
             }
         }
         return false;
     }
-    
-    public static boolean isCommonAbbreviationsChar(char c){
+
+    public static boolean isCommonAbbreviationsChar(char c) {
         for (char commonAbbreviationsChar : commonAbbreviationsChars) {
-            if(c == commonAbbreviationsChar){
+            if (c == commonAbbreviationsChar) {
                 return true;
             }
         }

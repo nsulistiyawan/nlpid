@@ -94,39 +94,40 @@ public class RuleBasedWordTokenizer implements TokenizerInterface {
             //jika potongan kata tidak punya punctuation sama sekali 
             if (this.onlyAlphaNumeric(tokenWs) == true) {
                 resultTokens.add(tokenWs);
-                
-            } 
-            else if(this.onlyHasWordBoundaryPunctuation(tokenWs)){
+
+            } else if (this.onlyHasWordBoundaryPunctuation(tokenWs)) {
                 char startChar = tokenWs.charAt(0);
                 char endChar = tokenWs.charAt(tokenWs.length() - 1);
-                
-                if(StringHelper.isPunctuation(startChar) && StringHelper.isPunctuation(endChar)){
-                    String tokenWsCleaned = tokenWs.substring(1,tokenWs.length()-1);
+
+                if (StringHelper.isPunctuation(startChar) && StringHelper.isPunctuation(endChar)) {
+                    String tokenWsCleaned = tokenWs.substring(1, tokenWs.length() - 1);
                     resultTokens.add(String.valueOf(startChar));
                     resultTokens.add(tokenWsCleaned);
                     resultTokens.add(String.valueOf(endChar));
-                }
-                
-                else if(StringHelper.isPunctuation(startChar)){
+                } else if (StringHelper.isPunctuation(startChar)) {
                     String tokenWsCleaned = tokenWs.substring(1);
                     resultTokens.add(String.valueOf(startChar));
                     resultTokens.add(tokenWsCleaned);
-                }
-                else if(StringHelper.isPunctuation(endChar)){
-                    String tokenWsCleaned = tokenWs.substring(0, tokenWs.length()-1);
+                } else if (StringHelper.isPunctuation(endChar)) {
+                    String tokenWsCleaned = tokenWs.substring(0, tokenWs.length() - 1);
                     resultTokens.add(tokenWsCleaned);
                     resultTokens.add(String.valueOf(endChar));
-                    
+
                 }
-                
-            }
-            
-            //ada dalam abbreviations           
+
+            } //ada dalam abbreviations           
             else if (abbreviations.contains(tokenWs.toLowerCase())) {
                 resultTokens.add(tokenWs);
             } //punya pola dalam salah satu rules
-            else if (hasRegexRules(tokenWs).get("is_valid") == "true") {
-                resultTokens.add(hasRegexRules(tokenWs).get("value"));
+            else if (this.hasRegexRules(tokenWs) == true) {
+                if (StringHelper.isCommonPunctuationAfterWord(tokenWs.charAt(tokenWs.length() - 1))) {
+                    resultTokens.add(tokenWs.substring(0,tokenWs.length() - 1));
+                    resultTokens.add(tokenWs.substring(tokenWs.length()-1, tokenWs.length()));
+                }
+                else{
+                    resultTokens.add(tokenWs);
+                }
+                
             } //default, split menurut punctuation
             else {
                 //tambahkan space sebelum & sesudah token 
@@ -163,30 +164,25 @@ public class RuleBasedWordTokenizer implements TokenizerInterface {
      * @param text
      * @return
      */
-    public HashMap<String, String> hasRegexRules(String text) {
+    public boolean hasRegexRules(String text) {
         HashMap<String, String> resultMap = new HashMap<>();
-        if (StringHelper.isAfterWordsChar(text.charAt(text.length() - 1))) {
+        if (StringHelper.isCommonPunctuationAfterWord(text.charAt(text.length() - 1))) {
             String tokenWsCleaned = text.substring(0, text.length() - 1);
             for (RegexEntityInterface regexEntity : regexEntities) {
                 if (regexEntity.isValidEntity(tokenWsCleaned)) {
-                    resultMap.put("is_valid", "true");
-                    resultMap.put("value", tokenWsCleaned);
-                    return resultMap;
+                    return true;
                 }
             }
         } else {
 
             for (RegexEntityInterface regexEntity : regexEntities) {
                 if (regexEntity.isValidEntity(text)) {
-                    resultMap.put("is_valid", "true");
-                    resultMap.put("value", text);
-                    return resultMap;
+                    return true;
                 }
             }
         }
 
-        resultMap.put("is_valid", "false");
-        return resultMap;
+        return false;
     }
 
     /**
@@ -199,11 +195,6 @@ public class RuleBasedWordTokenizer implements TokenizerInterface {
         Pattern p = Pattern.compile("[\\p{Punct}]?[A-Za-z]+[\\p{Punct}]?");
         Matcher m = p.matcher(text);
         return m.matches();
-    }
-    
-    public static void main(String[] args) {
-        RuleBasedWordTokenizer rb = new RuleBasedWordTokenizer();
-        System.out.println(rb.onlyHasWordBoundaryPunctuation("(19)"));
     }
 
 }
