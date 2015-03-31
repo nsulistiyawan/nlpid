@@ -25,7 +25,7 @@ public class Example {
 "Saat menunggu angkot untuk pulang, dia didatangi seorang pria yang mengaku tukang ojek yang menawarkan jasa mengantar korban ke rumahnya.\n" +
 "Tidak curiga dengan ajakan tukang ojek itu, FY naik motor pelaku. Namun korban bukannya diantar pulang, tapi malah dibawa berputar-putar dan berhenti di tempat sepi di pinggir tol Jogorawi tepatnya di Kampung Ciangsana, Desa Cibanon, Kecamatan Sukaraja, Kabupaten Bogor.\n" +
 "\"Kepada pelaku Korban sempat bertanya jalur yang dilalui. Tapi pria yang mengaku tukang ojek ini berdalih mengambil jalur pintas,\" ujar Kapolsek Sukaraja, Kompol Hida Tjahyono, Rabu (18/3/2015).";
-        List<String> tokens = TokenizerFactory.createDefaultTokenizer(s);
+        List<String> tokens = TokenizerFactory.getRuleBasedTokenList(s);
         for (String token : tokens) {
             System.out.println(token);
         }
