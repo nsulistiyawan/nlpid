@@ -45,21 +45,24 @@ public class RuleBasedSentenceDetector implements SentenceDetectorInterface {
         //clean multiple whitespace
         String textInput = text.replaceAll("\\s+", " ");
         List<String> resultSentences = new ArrayList<>();
-        String[] sentencesWs = textInput.split(" ");
-
+        String[] wordsWs = textInput.split(" ");
         List<String> bufferSentences = new ArrayList<>();
-        for (String sentenceWs : sentencesWs) {
-            if (!sentenceWs.endsWith(".") && !sentenceWs.endsWith("?") && !sentenceWs.endsWith("!")) {
-                bufferSentences.add(sentenceWs);
-            } else if (getAbbreviations().contains(sentenceWs.toLowerCase())) {
-                bufferSentences.add(sentenceWs);
-            } else {
-                bufferSentences.add(sentenceWs);
-                StringBuilder sentence = new StringBuilder();
+        for (String wordWs : wordsWs) {
+            boolean isNewSentences = false;
+            bufferSentences.add(wordWs);
+
+            if (wordWs.endsWith("?") || wordWs.endsWith("!")) {
+                isNewSentences = true;
+            } else if (wordWs.endsWith(".") && !this.getAbbreviations().contains(wordWs.toLowerCase())) {
+                isNewSentences = true;
+            }
+
+            if (isNewSentences) {
+                StringBuilder sentences = new StringBuilder();
                 for (String bufferSentence : bufferSentences) {
-                    sentence.append(" ").append(bufferSentence);
+                    sentences.append(bufferSentence).append(" ");
                 }
-                resultSentences.add(sentence.toString().trim());
+                resultSentences.add(sentences.toString().trim());
                 bufferSentences = new ArrayList<>();
             }
 

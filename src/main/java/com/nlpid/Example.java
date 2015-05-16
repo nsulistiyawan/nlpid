@@ -6,7 +6,6 @@
 package com.nlpid;
 
 import com.nlpid.sentenceDetector.SentenceDetectorFactory;
-import com.nlpid.sentenceDetector.SentenceDetectorInterface;
 import com.nlpid.tokenizer.TokenizerFactory;
 import java.util.List;
 
@@ -18,10 +17,7 @@ public class Example {
 
     public static void main(String[] args) {
 
-        String s = "Seorang ibu rumah tangga di Kampung Rawabugel RT 02/10, Kelurahan Harapan Mulya, Kecamatan Medansatria, Kota Bekasi ditembak kawanan perampok pada Kamis (14/5) dini hari.\n"
-                + "Samini (38) harus dirawat di rumah sakit, akibat luka tembak di bagian paha kirinya oleh kawanan perampok.\n"
-                + "Kepala Unit Reserse Kriminal Polsek Medansatria, Inspektur Satu Sugiyantono, mengatakan kasus pencurian dengan kekerasan ini bermula saat korban mendengar suara gaduh di halaman depan rumahnya.\n"
-                + "Merasa ada yang tidak beres, lalu korban beranjak dari tidurnya untuk mengecek ke lokasi. Tak disangka, seorang perampok tengah menggasak sepeda motor Honda Scoopy bernomor polisi B 3238 KPM miliknya.";
+        String s = "Ibu Budi bernama Dr. Rani, sedangkan bapaknya bernama Prof. Joko. Mereka tinggal di Jln. Awan No. 22.";
         List<String> sentences = SentenceDetectorFactory.getRuleBasedSentenceList(s);
         for (String sentence : sentences) {
             System.out.println(sentence);
