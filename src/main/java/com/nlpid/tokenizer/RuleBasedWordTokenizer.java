@@ -5,7 +5,6 @@
  */
 package com.nlpid.tokenizer;
 
-import com.nlpid.regexentity.AbbreviationEntity;
 import com.nlpid.regexentity.AgeEntity;
 import com.nlpid.regexentity.DateEntity;
 import com.nlpid.regexentity.EmailEntity;
@@ -94,8 +93,17 @@ public class RuleBasedWordTokenizer implements TokenizerInterface {
             //jika potongan kata tidak punya punctuation sama sekali 
             if (this.onlyAlphaNumeric(tokenWs) == true) {
                 resultTokens.add(tokenWs);
-
-            } else if (this.onlyHasWordBoundaryPunctuation(tokenWs)) {
+            
+                
+            } 
+            
+            //check apakah ada dalam abbreviation
+            else if (abbreviations.contains(tokenWs.toLowerCase())) {
+                resultTokens.add(tokenWs);
+            } 
+            
+            //check word boundary punctuation
+            else if (this.onlyHasWordBoundaryPunctuation(tokenWs)) {
                 char startChar = tokenWs.charAt(0);
                 char endChar = tokenWs.charAt(tokenWs.length() - 1);
 
@@ -115,10 +123,9 @@ public class RuleBasedWordTokenizer implements TokenizerInterface {
 
                 }
 
-            } //ada dalam abbreviations           
-            else if (abbreviations.contains(tokenWs.toLowerCase())) {
-                resultTokens.add(tokenWs);
-            } //punya pola dalam salah satu rules
+            }          
+            
+            //check regex rules
             else if (this.hasRegexRules(tokenWs) == true) {
                 if (StringHelper.isCommonPunctuationAfterWord(tokenWs.charAt(tokenWs.length() - 1))) {
                     resultTokens.add(tokenWs.substring(0,tokenWs.length() - 1));
@@ -128,7 +135,9 @@ public class RuleBasedWordTokenizer implements TokenizerInterface {
                     resultTokens.add(tokenWs);
                 }
                 
-            } //default, split menurut punctuation
+            } 
+
+            //default, split menurut punctuation
             else {
                 //tambahkan space sebelum & sesudah token 
                 String lastToken = tokenWs.replaceAll("\\p{Punct}", " $0 ");

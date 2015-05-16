@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class NumericEntity implements RegexEntityInterface{
     
-    private final Pattern numericPattern = Pattern.compile("[0-9]+([,.][0-9]{1,2})?");
+    private final Pattern numericPattern = Pattern.compile("[0-9]+([,.][0-9]+)?");
 
     @Override
     public boolean isValidEntity(String text) {

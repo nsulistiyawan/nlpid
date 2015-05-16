@@ -12,14 +12,14 @@ import java.util.regex.Pattern;
  * @author n
  */
 public class DateEntity implements RegexEntityInterface{
-    
+
     private static final Pattern datePattern = Pattern.compile("\\(\\d+{1,2}/\\d+{1,2}/?(\\d+{1,4})?\\)");
-    
+
     @Override
     public boolean isValidEntity(String text) {
         Matcher m = datePattern.matcher(text);
         return m.matches();
     }
-   
-    
+
+
 }
