@@ -5,8 +5,8 @@
  */
 package com.nlpid;
 
-import com.nlp.sentenceDetector.SentenceDetectorFactory;
-import com.nlp.sentenceDetector.SentenceDetectorInterface;
+import com.nlpid.sentenceDetector.SentenceDetectorFactory;
+import com.nlpid.sentenceDetector.SentenceDetectorInterface;
 import com.nlpid.tokenizer.TokenizerFactory;
 import java.util.List;
 
